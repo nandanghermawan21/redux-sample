@@ -16,14 +16,14 @@ function App() {
   return (
     <Container >
       <Row>
-        <Col lg="2">
+        <Col lg="2" className='sized-dock'>
           <SideDock />
         </Col>
         <Col>
           <Row>
             <Header />
           </Row>
-          <Row>
+          <Row className='productArea'>
             <ProductGrid />
           </Row>
         </Col>

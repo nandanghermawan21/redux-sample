@@ -1,8 +1,10 @@
+
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { ProductsSlice, loadAsync, Products, Product } from './slice';
 import { Instagram, } from 'react-content-loader'
-import { Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import styles from './product.module.css';
+
 
 export function ProductGrid() {
     const dispatch = useAppDispatch();
@@ -56,13 +58,51 @@ const ProductItem = (item: Product) => {
                 <label>{item.title}</label>
             </Row>
             <Row className={styles.itemRating}>
-                test
+                <Col md={7}>
+                    <Row>
+                        <label className={styles.priceLabel}>Category</label>
+                    </Row>
+                    <Row>
+                        <label>{item.category}</label>
+                    </Row>
+                </Col>
+                <Col md={5}>
+                    <Row>
+                        <Col md={1}>
+                            <img className='float-right' src='star.png' alt='logo' width={20} height={20}></img>
+                        </Col>
+                        <Col>
+                            <label>{item.rating}</label>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={1}>
+                            <img src='box.png' alt='logo' width={20} height={20}></img>
+                        </Col>
+                        <Col>
+                            <label>{item.stock}</label>
+                        </Col>
+                    </Row>
+                </Col>
             </Row>
             <Row className={styles.itemAction}>
-                test
+                <Col md={7}>
+                    <Row>
+                        <label className={styles.priceLabel}>Price</label>
+                    </Row>
+                    <Row>
+                        <label>USD {item.price}</label>
+                    </Row>
+                </Col>
+                <Col md={5}>
+                    <Button>
+                        Add Cart
+                    </Button>
+                </Col>
             </Row>
         </Container>
     );
 }
+
 
 export default ProductGrid;
