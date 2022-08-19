@@ -1,9 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import minPriceReducer from '../module/minprice/slice';
+import maxPriceReducer from '../module/maxprice/slice';
+import categoriesReducer from '../module/categories/slice';
+
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    minPrice: minPriceReducer,
+    maxPrice: maxPriceReducer,
+    categories: categoriesReducer
   },
 });
 
