@@ -96,13 +96,10 @@ function TabMenu() {
       color='none'
       aria-checked="false"
     >
-      <Tab eventKey="home" title="Home">
+      <Tab eventKey="home" title="Product">
         {/* <Sonnet /> */}
       </Tab>
-      <Tab eventKey="profile" title="Profile">
-        {/* <Sonnet /> */}
-      </Tab>
-      <Tab eventKey="contact" title="Contact">
+      <Tab eventKey="profile" title="Cart">
         {/* <Sonnet /> */}
       </Tab>
     </Tabs>

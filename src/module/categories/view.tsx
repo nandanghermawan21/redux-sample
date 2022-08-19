@@ -1,14 +1,30 @@
 import { ListGroup } from 'react-bootstrap';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import CheckBoxBasic from '../../component/CheckBox';
-import { categoriesSlice, isSelected } from './slice';
+import { Categories, categoriesSlice, isSelected, loadAsync } from './slice';
+import { BulletList } from 'react-content-loader'
+
+categoriesSlice.actions.dummy();
 
 export function CategoriesListCheckBox() {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.categories);
-    // dispatch(categoriesSlice.actions.dummy())
 
 
+    switch (state.status) {
+        case 'first':
+            dispatch(loadAsync());
+            return  (LoadingView());
+        case "idle":
+            return (IdleView(state, dispatch));
+        case "loading":
+            return (LoadingView());
+        default:
+            return (<div></div>)
+    }
+}
+
+const IdleView = (state: Categories, dispatch: any) => {
     return (
         <div>
             <div style={{ padding: 0 }}>
@@ -20,7 +36,6 @@ export function CategoriesListCheckBox() {
                             label={pet}
                             checked={isSelected(state, pet)}
                             onChange={(val: boolean) => {
-                                console.log("changeTo:"+val)
                                 if (val == true) {
                                     dispatch(categoriesSlice.actions.select(pet));
                                 } else {
@@ -34,3 +49,15 @@ export function CategoriesListCheckBox() {
         </div>
     );
 }
+const LoadingView = () => {
+    return (
+        <div>
+            <div style={{ padding: 0 }}>
+                <BulletList/>
+            </div>
+        </div>
+    );
+}
+
+
+export default CategoriesListCheckBox;
