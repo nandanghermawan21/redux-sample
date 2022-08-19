@@ -1,19 +1,36 @@
+import { ListGroup } from 'react-bootstrap';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import CheckBoxBasic from '../../component/CheckBox';
-import { categoriesSlice } from './slice';
-
+import { categoriesSlice, isSelected } from './slice';
 
 export function CategoriesListCheckBox() {
     const dispatch = useAppDispatch();
-    const datas = useAppSelector((state) => state.categories.datas);
+    const state = useAppSelector((state) => state.categories);
     // dispatch(categoriesSlice.actions.dummy())
 
+
     return (
-        <div></div>
-        // <FlatList
-        //     data={datas}
-        //     renderItem={(item: String) => <CheckBoxBasic value={item} label={item} />}
-        //     keyExtractor={(item: any) => item}
-        // />
+        <div>
+            <div style={{ padding: 0 }}>
+                {state.datas.map((pet, i) => {
+                    return (
+                        <CheckBoxBasic
+                            key={i}
+                            id={pet}
+                            label={pet}
+                            checked={isSelected(state, pet)}
+                            onChange={(val: boolean) => {
+                                console.log("changeTo:"+val)
+                                if (val == true) {
+                                    dispatch(categoriesSlice.actions.select(pet));
+                                } else {
+                                    dispatch(categoriesSlice.actions.unSelect(pet));
+                                }
+                            }}
+                        />
+                    )
+                })}
+            </div>
+        </div>
     );
 }

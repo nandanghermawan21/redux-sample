@@ -27,16 +27,31 @@ export const categoriesSlice = createSlice({
         "skincare",
       );
     },
-    toggle: (state, action: PayloadAction<String>) => {
+    select: (state, action: PayloadAction<String>) => {
       const index = state.selected.indexOf(action.payload, 0);
       if(index > -1){
         state.selected.slice(index,0);
       }else{
         state.selected.push(action.payload);
       }
+    },
+    unSelect: (state, action: PayloadAction<String>) => {
+      const index = state.selected.indexOf(action.payload, 0);
+      if(index > -1){
+        state.selected.slice(index,0);
+      }
     }
   },
   extraReducers: {},
 });
+
+export function isSelected(state : Categories, category : String) : boolean {
+  const index = state.selected.indexOf(category);
+  if(index > -1){
+    return true;
+  }else{
+    return false;
+  }
+}
 
 export default categoriesSlice.reducer;

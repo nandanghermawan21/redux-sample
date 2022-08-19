@@ -1,20 +1,24 @@
 import { FunctionComponent, RefCallback } from "react";
 import { Form } from "react-bootstrap";
 
+
 type CheckBoxProperty = {
-    value: any,
-    label: String
-  }
+  id: any,
+  label: String,
+  checked: boolean,
+  onChange: RefCallback<boolean>
+}
 
 export const CheckBoxBasic: FunctionComponent<CheckBoxProperty> = (prop) => {
-    return (
-        <div >
-            {/* <Form.Check type={"checkbox"} id={prop.value}>
-                <Form.Check.Input type={"checkbox"} />
-                <Form.Check.Label>{prop.label}</Form.Check.Label>
-            </Form.Check> */}
-        </div>
-    );
-  }
+  return (
+    <Form.Group className="mb-1" controlId={prop.id}>
+      <Form.Check 
+        type="checkbox" 
+        label={prop.label} 
+        defaultChecked={prop.checked} 
+        onChange={(val) => prop.onChange((val.target.checked))}/>
+    </Form.Group>
+  );
+}
 
 export default CheckBoxBasic;
