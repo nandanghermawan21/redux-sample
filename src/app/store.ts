@@ -2,13 +2,15 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import minPriceReducer from '../module/minprice/slice';
 import maxPriceReducer from '../module/maxprice/slice';
 import categoriesReducer from '../module/categories/slice';
+import products from '../module/products/slice';
 
 
 export const store = configureStore({
   reducer: {
     minPrice: minPriceReducer,
     maxPrice: maxPriceReducer,
-    categories: categoriesReducer
+    categories: categoriesReducer,
+    products: products
   },
 });
 

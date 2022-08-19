@@ -1,0 +1,42 @@
+.container {
+    height: 400px;
+    width: 300px;
+    background-color: rgba(254, 254, 254, 0.899);
+    margin: 10px;
+    border-style: solid;
+    border-radius: 20px;
+    border-width: 0.1px;
+    padding: 20px;
+}
+
+.itemImage {
+    height: 50%;
+}
+
+.itemImage>img {
+    height: 50%;
+    height: 100%;
+    width: auto;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.itemName {
+    height: 15%;
+}
+
+.itemName>label {
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.itemRating {
+    height: 15%;
+}
+
+.itemAction {
+    height: 20%;
+}

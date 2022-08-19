@@ -1,10 +1,8 @@
-import { ListGroup } from 'react-bootstrap';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import CheckBoxBasic from '../../component/CheckBox';
 import { Categories, categoriesSlice, isSelected, loadAsync } from './slice';
 import { BulletList } from 'react-content-loader'
 
-categoriesSlice.actions.dummy();
 
 export function CategoriesListCheckBox() {
     const dispatch = useAppDispatch();

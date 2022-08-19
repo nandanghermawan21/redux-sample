@@ -7,19 +7,25 @@ import { Container, Form, Tab, Tabs } from 'react-bootstrap';
 import SizedBox from './component/SizedBox';
 import { MinPrice } from './module/minprice/view';
 import { MaxPrice } from './module/maxprice/view';
-import {store} from './app/store';
+import { store } from './app/store';
 import { Unsubscribe } from '@reduxjs/toolkit';
 import { CategoriesListCheckBox } from './module/categories/view';
+import ProductGrid from './module/products/view';
 
 function App() {
   return (
     <Container >
       <Row>
         <Col lg="2">
-          <SideDock/>
+          <SideDock />
         </Col>
         <Col>
-          <Header />
+          <Row>
+            <Header />
+          </Row>
+          <Row>
+            <ProductGrid />
+          </Row>
         </Col>
       </Row>
     </Container>
@@ -42,37 +48,37 @@ function SideDock() {
   return (
     <Container className='side-dock'>
       <Row>
-       <Logo/>
+        <Logo />
       </Row>
-      <SizedBox height={20} width={0}/>
+      <SizedBox height={20} width={0} />
       <Row className='subtitle'>
         Filter
       </Row>
-      <SizedBox height={30} width={0}/>
+      <SizedBox height={30} width={0} />
       <Row className='subtitle'>
         Categories
       </Row>
-      <SizedBox height={20} width={0}/>
+      <SizedBox height={20} width={0} />
       <Row>
-        <CategoriesListCheckBox/>
+        <CategoriesListCheckBox />
       </Row>
-      <SizedBox height={20} width={0}/>
-      <Row  className='subtitle'>
+      <SizedBox height={20} width={0} />
+      <Row className='subtitle'>
         Price Range
       </Row>
-      <SizedBox height={20} width={0}/>
+      <SizedBox height={20} width={0} />
       <Row>
         Minimum
       </Row>
       <Row>
-        <MinPrice/>
+        <MinPrice />
       </Row>
-      <SizedBox height={10} width={0}/>
+      <SizedBox height={10} width={0} />
       <Row>
         Maximum
       </Row>
       <Row>
-        <MaxPrice/>
+        <MaxPrice />
       </Row>
     </Container>
   );
@@ -82,7 +88,7 @@ export function readMaxprice(): Unsubscribe {
   return store.subscribe(() => {
     return store.getState().maxPrice.value;
   });
-} 
+}
 
 function TabMenu() {
   const [key, setKey] = useState('home');
@@ -91,7 +97,7 @@ function TabMenu() {
     <Tabs
       id="controlled-tab-example"
       activeKey={key}
-      onSelect={(k) => setKey(k ?? "Home") }
+      onSelect={(k) => setKey(k ?? "Home")}
       className="tab-menu"
       color='none'
       aria-checked="false"
@@ -106,7 +112,7 @@ function TabMenu() {
   );
 }
 
-function Logo(){
+function Logo() {
   return (
     <img src='/pintap-logo.png' alt='logo'></img>
   );
@@ -118,7 +124,7 @@ function CheckExample() {
       {['checkbox'].map((type) => (
         <div key={type} className="mb-2">
           <Form.Check type={"checkbox"} id={`check-api-${type}`}>
-            <Form.Check.Input type={"checkbox"}  />
+            <Form.Check.Input type={"checkbox"} />
             <Form.Check.Label>{`Category 1`}</Form.Check.Label>
           </Form.Check>
         </div>
