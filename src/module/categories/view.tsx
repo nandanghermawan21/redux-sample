@@ -2,10 +2,11 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import CheckBoxBasic, { RadioButtonBasic } from '../../component/Selector';
 import { Categories, categoriesSlice, isSelected, loadAsync } from './slice';
 import { BulletList } from 'react-content-loader'
+import { NoParamCallback } from 'fs';
 
 
 
-export function CategoriesListCheckBox(type: 'CheckBox' | "Radio") {
+export function CategoriesListCheckBox(type: 'CheckBox' | "Radio", onChange: CallableFunction) {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.categories);
 
@@ -16,9 +17,9 @@ export function CategoriesListCheckBox(type: 'CheckBox' | "Radio") {
             return (LoadingView());
         case "idle":
             if (type == 'CheckBox') {
-                return (CheckboxView(state, dispatch));
-            }else{
-                return (RadioButtonView(state, dispatch));
+                return (CheckboxView(state, dispatch, onChange));
+            } else {
+                return (RadioButtonView(state, dispatch, onChange));
             }
         case "loading":
             return (LoadingView());
@@ -27,7 +28,7 @@ export function CategoriesListCheckBox(type: 'CheckBox' | "Radio") {
     }
 }
 
-const CheckboxView = (state: Categories, dispatch: any) => {
+const CheckboxView = (state: Categories, dispatch: any, onChange: CallableFunction) => {
     return (
         <div>
             <div style={{ padding: 0 }}>
@@ -44,6 +45,7 @@ const CheckboxView = (state: Categories, dispatch: any) => {
                                 } else {
                                     dispatch(categoriesSlice.actions.unSelect(pet));
                                 }
+                                onChange();
                             }}
                         />
                     )
@@ -53,20 +55,31 @@ const CheckboxView = (state: Categories, dispatch: any) => {
     );
 }
 
-const RadioButtonView = (state: Categories, dispatch: any) => {
+const RadioButtonView = (state: Categories, dispatch: any, onChange: CallableFunction) => {
+    var datas = Array<String>();
+
+    datas.push("all");
+
+    state.datas.map((pet, i) => datas.push(pet));
+
     return (
         <div>
             <div style={{ padding: 0 }}>
-                {state.datas.map((pet, i) => {
+                {datas.map((pet, i) => {
                     return (
                         <RadioButtonBasic
                             name={"category"}
                             key={i}
                             id={pet}
                             label={pet}
-                            checked={isSelected(state, pet)}
+                            checked={state.selected.length < 1 && pet == "all" ? true : isSelected(state, pet)}
                             onChange={(val: boolean) => {
-                                dispatch(categoriesSlice.actions.selectOne(pet));
+                                if (pet != "all") {
+                                    dispatch(categoriesSlice.actions.selectOne(pet));
+                                } else {
+                                    dispatch(categoriesSlice.actions.selectOne(pet));
+                                }
+                                onChange();
                             }}
                         />
                     )

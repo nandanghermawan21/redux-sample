@@ -12,6 +12,8 @@ import { Unsubscribe } from '@reduxjs/toolkit';
 import { CategoriesListCheckBox as CategoriesList } from './module/categories/view';
 import ProductGrid from './module/products/view';
 import { AuthMenuView } from './module/auth/view';
+import { loadAsync as loadProductAsync } from './module/products/slice'
+import { useAppDispatch } from './app/hooks';
 
 function App() {
   return (
@@ -51,6 +53,7 @@ function Header() {
 }
 
 function SideDock() {
+  const dispatch = useAppDispatch();
   return (
     <Container className='side-dock'>
       <Row>
@@ -66,7 +69,14 @@ function SideDock() {
       </Row>
       <SizedBox height={20} width={0} />
       <Row>
-        {CategoriesList('Radio')}
+        {CategoriesList('Radio', () => {
+          const selectedCategories = store.getState().categories.selected;
+          if (selectedCategories.length > 0) {
+            dispatch(loadProductAsync(selectedCategories[0]));
+          } else {
+            dispatch(loadProductAsync());
+          }
+        })}
       </Row>
       <SizedBox height={20} width={0} />
       <Row className='subtitle'>
@@ -88,12 +98,6 @@ function SideDock() {
       </Row>
     </Container>
   );
-}
-
-export function readMaxprice(): Unsubscribe {
-  return store.subscribe(() => {
-    return store.getState().maxPrice.value;
-  });
 }
 
 function TabMenu() {

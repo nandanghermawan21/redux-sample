@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {fetchAll} from './api'
+import { store } from '../../app/store';
+import { fetchAll } from './api'
 
 export interface Categories {
   datas: Array<String>;
@@ -46,6 +47,9 @@ export const categoriesSlice = createSlice({
     selectOne: (state, action: PayloadAction<String>) => {
       state.selected = Array();
       state.selected.push(action.payload);
+    },
+    unSelectAll: (state, action: PayloadAction<String>) => {
+      state.selected = Array();
     },
     select: (state, action: PayloadAction<String>) => {
       const index = state.selected.indexOf(action.payload, 0);

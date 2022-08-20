@@ -27,9 +27,9 @@ const initialState: Products = {
 
 export const loadAsync = createAsyncThunk(
     'product/loadAsync',
-    async () => {
+    async (category? : String) => {
         console.log("call async product");
-        const response = await fetchAll();
+        const response = await fetchAll(category);
         // The value we return becomes the `fulfilled` action payload
         return response.data;
     }
