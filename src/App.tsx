@@ -9,7 +9,7 @@ import { MinPrice } from './module/minprice/view';
 import { MaxPrice } from './module/maxprice/view';
 import { store } from './app/store';
 import { Unsubscribe } from '@reduxjs/toolkit';
-import { CategoriesListCheckBox } from './module/categories/view';
+import { CategoriesListCheckBox as CategoriesList } from './module/categories/view';
 import ProductGrid from './module/products/view';
 import { AuthMenuView } from './module/auth/view';
 
@@ -36,13 +36,13 @@ function App() {
 function Header() {
   return (
     <Container className='App-header d-flex align-items-end'>
-      <Row style={{width:"100%"}} className="align-items-center">
+      <Row style={{ width: "100%" }} className="align-items-center">
         <Col md={9}>
           <TabMenu />
         </Col>
-        <Col md={3} className="align-items-end" style={{textAlign:"end"}}>
+        <Col md={3} className="align-items-end" style={{ textAlign: "end" }}>
           <div className='auth'>
-            <AuthMenuView/>
+            <AuthMenuView />
           </div>
         </Col>
       </Row>
@@ -66,7 +66,7 @@ function SideDock() {
       </Row>
       <SizedBox height={20} width={0} />
       <Row>
-        <CategoriesListCheckBox />
+        {CategoriesList('Radio')}
       </Row>
       <SizedBox height={20} width={0} />
       <Row className='subtitle'>

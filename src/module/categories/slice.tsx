@@ -43,6 +43,10 @@ export const categoriesSlice = createSlice({
       );
       state.status = "idle";
     },
+    selectOne: (state, action: PayloadAction<String>) => {
+      state.selected = Array();
+      state.selected.push(action.payload);
+    },
     select: (state, action: PayloadAction<String>) => {
       const index = state.selected.indexOf(action.payload, 0);
       if (index > -1) {

@@ -1,10 +1,11 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import CheckBoxBasic from '../../component/CheckBox';
+import CheckBoxBasic, { RadioButtonBasic } from '../../component/Selector';
 import { Categories, categoriesSlice, isSelected, loadAsync } from './slice';
 import { BulletList } from 'react-content-loader'
 
 
-export function CategoriesListCheckBox() {
+
+export function CategoriesListCheckBox(type: 'CheckBox' | "Radio") {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.categories);
 
@@ -12,9 +13,13 @@ export function CategoriesListCheckBox() {
     switch (state.status) {
         case 'first':
             dispatch(loadAsync());
-            return  (LoadingView());
+            return (LoadingView());
         case "idle":
-            return (IdleView(state, dispatch));
+            if (type == 'CheckBox') {
+                return (CheckboxView(state, dispatch));
+            }else{
+                return (RadioButtonView(state, dispatch));
+            }
         case "loading":
             return (LoadingView());
         default:
@@ -22,7 +27,7 @@ export function CategoriesListCheckBox() {
     }
 }
 
-const IdleView = (state: Categories, dispatch: any) => {
+const CheckboxView = (state: Categories, dispatch: any) => {
     return (
         <div>
             <div style={{ padding: 0 }}>
@@ -47,11 +52,35 @@ const IdleView = (state: Categories, dispatch: any) => {
         </div>
     );
 }
+
+const RadioButtonView = (state: Categories, dispatch: any) => {
+    return (
+        <div>
+            <div style={{ padding: 0 }}>
+                {state.datas.map((pet, i) => {
+                    return (
+                        <RadioButtonBasic
+                            name={"category"}
+                            key={i}
+                            id={pet}
+                            label={pet}
+                            checked={isSelected(state, pet)}
+                            onChange={(val: boolean) => {
+                                dispatch(categoriesSlice.actions.selectOne(pet));
+                            }}
+                        />
+                    )
+                })}
+            </div>
+        </div>
+    );
+}
+
 const LoadingView = () => {
     return (
         <div>
             <div style={{ padding: 0 }}>
-                <BulletList/>
+                <BulletList />
             </div>
         </div>
     );
