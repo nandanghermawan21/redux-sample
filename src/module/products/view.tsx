@@ -1,6 +1,6 @@
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { ProductsSlice, loadAsync, Product, Products } from './slice';
+import { Product, Products } from './slice';
 import { Instagram, } from 'react-content-loader'
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import styles from './product.module.css';
@@ -14,7 +14,6 @@ export function ProductGrid() {
 
     switch (state.status) {
         case 'first':
-            dispatch(loadAsync());
             return (LoadingView());
         case "idle":
             return (IdleView(state, dispatch));
@@ -52,7 +51,7 @@ const ProductItem = (item: Product) => {
     return (
         <Container className={styles.container}>
             <Row className={styles.itemImage}>
-                <img src={item.images != undefined ? item.images[0].toString() : ""} alt='logo'></img>
+                <img src={item.images !== undefined ? item.images[0].toString() : ""} alt='logo'></img>
             </Row>
             <Row className={styles.itemName}>
                 <label>{item.title}</label>

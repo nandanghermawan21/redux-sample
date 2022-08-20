@@ -13,6 +13,9 @@ export class Product {
     category?: String; //: "smartphones",
     thumbnail?: String; //: "...",
     images?: Array<String>; //: ["...", "...", "..."]
+    quantity?: Number; //": 3,
+    total?: Number; //": 1800,
+    discountedPrice?: Number; //": 1520
 }
 
 export interface Products {
@@ -27,7 +30,7 @@ const initialState: Products = {
 
 export const loadAsync = createAsyncThunk(
     'product/loadAsync',
-    async (category? : String) => {
+    async (category?: String) => {
         console.log("call async product");
         const response = await fetchAll(category);
         // The value we return becomes the `fulfilled` action payload
@@ -40,7 +43,7 @@ export const ProductsSlice = createSlice({
     name: "producs",
     initialState: initialState,
     reducers: {
-        
+
     },
     extraReducers(builder) {
         builder

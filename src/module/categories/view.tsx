@@ -1,8 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import CheckBoxBasic, { RadioButtonBasic } from '../../component/Selector';
-import { Categories, categoriesSlice, isSelected, loadAsync } from './slice';
+import { Categories, categoriesSlice, isSelected } from './slice';
 import { BulletList } from 'react-content-loader'
-import { NoParamCallback } from 'fs';
 
 
 
@@ -13,10 +12,9 @@ export function CategoriesListCheckBox(type: 'CheckBox' | "Radio", onChange: Cal
 
     switch (state.status) {
         case 'first':
-            dispatch(loadAsync());
             return (LoadingView());
         case "idle":
-            if (type == 'CheckBox') {
+            if (type === 'CheckBox') {
                 return (CheckboxView(state, dispatch, onChange));
             } else {
                 return (RadioButtonView(state, dispatch, onChange));
@@ -40,7 +38,7 @@ const CheckboxView = (state: Categories, dispatch: any, onChange: CallableFuncti
                             label={pet}
                             checked={isSelected(state, pet)}
                             onChange={(val: boolean) => {
-                                if (val == true) {
+                                if (val === true) {
                                     dispatch(categoriesSlice.actions.select(pet));
                                 } else {
                                     dispatch(categoriesSlice.actions.unSelect(pet));
@@ -72,12 +70,12 @@ const RadioButtonView = (state: Categories, dispatch: any, onChange: CallableFun
                             key={i}
                             id={pet}
                             label={pet}
-                            checked={state.selected.length < 1 && pet == "all" ? true : isSelected(state, pet)}
+                            checked={state.selected.length < 1 && pet === "all" ? true : isSelected(state, pet)}
                             onChange={(val: boolean) => {
-                                if (pet != "all") {
+                                if (pet !== "all") {
                                     dispatch(categoriesSlice.actions.selectOne(pet));
                                 } else {
-                                    dispatch(categoriesSlice.actions.selectOne(pet));
+                                    dispatch(categoriesSlice.actions.unSelectAll());
                                 }
                                 onChange();
                             }}

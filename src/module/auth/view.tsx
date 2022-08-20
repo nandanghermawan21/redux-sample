@@ -1,5 +1,5 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { AuthState, AuthSlice, loginAsync } from './slice';
+import { AuthState } from './slice';
 import { Code } from 'react-content-loader'
 import SizedBox from '../../component/SizedBox';
 
@@ -11,7 +11,6 @@ export function AuthMenuView() {
 
     switch (state.status) {
         case 'first':
-            dispatch(loginAsync());
             return (LoadingView());
         case "idle":
             return (IdleView(state, dispatch));
@@ -26,9 +25,9 @@ const IdleView = (state: AuthState, dispatch: any) => {
     return (
         <div>
             <div style={{ padding: 0 }}>
-               <label>{state.value != null ? state.value.username : ""}</label>
-               <SizedBox height={0} width={30} />
-               <img height={30} width={30} src={(state.value?.image ?? "").toString()}></img>
+                <label>{state.value != null ? state.value.username : ""}</label>
+                <SizedBox height={0} width={30} />
+                <img height={30} width={30} alt="loading" src={(state.value?.image ?? "").toString()}></img>
             </div>
         </div>
     );

@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { store } from '../../app/store';
 import { fetchAll } from './api'
 
 export interface Categories {
@@ -9,20 +8,20 @@ export interface Categories {
 }
 
 const initialState: Categories = {
-  datas: Array(
+  datas: Array<String>(
     "laptops",
     "fragrances",
     "skincare",
   ),
-  selected: Array(),
+  selected: Array<String>(),
   status: 'first'
 };
 
 export const loadAsync = createAsyncThunk(
   'categories/loadAsync',
-  async () => {
+  async (onLoaded?: CallableFunction) => {
     console.log("call async");
-    const response = await fetchAll();
+    const response = await fetchAll(onLoaded);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -34,7 +33,7 @@ export const categoriesSlice = createSlice({
   initialState,
   reducers: {
     dummy: (state) => {
-      state.datas = Array(
+      state.datas = Array<String>(
         "laptops",
         "fragrances",
         "skincare",
@@ -45,11 +44,11 @@ export const categoriesSlice = createSlice({
       state.status = "idle";
     },
     selectOne: (state, action: PayloadAction<String>) => {
-      state.selected = Array();
+      state.selected = Array<String>();
       state.selected.push(action.payload);
     },
-    unSelectAll: (state, action: PayloadAction<String>) => {
-      state.selected = Array();
+    unSelectAll: (state) => {
+      state.selected = Array<String>();
     },
     select: (state, action: PayloadAction<String>) => {
       const index = state.selected.indexOf(action.payload, 0);

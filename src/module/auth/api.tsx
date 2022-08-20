@@ -1,5 +1,5 @@
 
-export function login() {
+export function login(onLoggedIn? : CallableFunction) {
     return new Promise<{ data: any }>((resolve) =>
     fetch('https://dummyjson.com/auth/login', {
         method: 'POST',

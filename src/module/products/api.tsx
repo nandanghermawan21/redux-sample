@@ -8,6 +8,7 @@ export function fetchAll(category? : String) {
         url = "https://dummyjson.com/products/category/"+category;
     }
 
+    console.log("request : ",url);
     return new Promise<{ data: any }>((resolve) =>
         fetch(url)
             .then((response) => response.json())

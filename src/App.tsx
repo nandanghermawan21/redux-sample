@@ -1,21 +1,33 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import { AppSlice } from './app/slice';
 import './App.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Container, Form, Tab, Tabs } from 'react-bootstrap';
+import { Container, Tab, Tabs } from 'react-bootstrap';
 import SizedBox from './component/SizedBox';
 import { MinPrice } from './module/minprice/view';
 import { MaxPrice } from './module/maxprice/view';
 import { store } from './app/store';
-import { Unsubscribe } from '@reduxjs/toolkit';
 import { CategoriesListCheckBox as CategoriesList } from './module/categories/view';
 import ProductGrid from './module/products/view';
 import { AuthMenuView } from './module/auth/view';
 import { loadAsync as loadProductAsync } from './module/products/slice'
-import { useAppDispatch } from './app/hooks';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import { CartBedgeView } from './module/cart/view';
+import { loginAsync } from './module/auth/slice';
+import { loadAsync as loadCategories } from './module/categories/slice';
+import { loadAsync as loadProduct } from './module/products/slice';
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  //initstate
+  dispatch(loginAsync());
+  dispatch(loadCategories(()=>{
+    dispatch(loadProduct());
+  }));
+
   return (
     <Container >
       <Row>
@@ -27,7 +39,7 @@ function App() {
             <Header />
           </Row>
           <Row className='productArea'>
-            <ProductGrid />
+            <LoadTabContent />
           </Row>
         </Col>
       </Row>
@@ -35,14 +47,24 @@ function App() {
   );
 }
 
+function LoadTabContent() {
+  const state = useAppSelector((state) => state.app);
+  switch (state.activeTab) {
+    case "product":
+      return <ProductGrid />
+    default:
+      return (<div></div>)
+  }
+}
+
 function Header() {
   return (
     <Container className='App-header d-flex align-items-end'>
       <Row style={{ width: "100%" }} className="align-items-center">
-        <Col md={9}>
+        <Col md={10}>
           <TabMenu />
         </Col>
-        <Col md={3} className="align-items-end" style={{ textAlign: "end" }}>
+        <Col md={2} className="align-items-end" style={{ textAlign: "end" }}>
           <div className='auth'>
             <AuthMenuView />
           </div>
@@ -101,22 +123,29 @@ function SideDock() {
 }
 
 function TabMenu() {
-  const [key, setKey] = useState('home');
+  const dispatch = useAppDispatch();
+  const [key, setKey] = useState('product');
 
   return (
     <Tabs
       id="controlled-tab-example"
       activeKey={key}
-      onSelect={(k) => setKey(k ?? "Home")}
+      onSelect={(k) => {
+        console.log("change tab");
+        dispatch(AppSlice.actions.changeTab(k ?? "product"));
+        setKey(k ?? "product");
+      }}
       className="tab-menu"
       color='none'
       aria-checked="false"
     >
-      <Tab eventKey="home" title="Product">
+      <Tab eventKey="product" title="Product">
         {/* <Sonnet /> */}
       </Tab>
-      <Tab eventKey="profile" title="Cart">
-        {/* <Sonnet /> */}
+      <Tab eventKey="cart" title={<React.Fragment>
+        Cart
+        <CartBedgeView />
+      </React.Fragment>}>
       </Tab>
     </Tabs>
   );
@@ -128,19 +157,5 @@ function Logo() {
   );
 }
 
-function CheckExample() {
-  return (
-    <Form>
-      {['checkbox'].map((type) => (
-        <div key={type} className="mb-2">
-          <Form.Check type={"checkbox"} id={`check-api-${type}`}>
-            <Form.Check.Input type={"checkbox"} />
-            <Form.Check.Label>{`Category 1`}</Form.Check.Label>
-          </Form.Check>
-        </div>
-      ))}
-    </Form>
-  );
-}
 
 export default App;
