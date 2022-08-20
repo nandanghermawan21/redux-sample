@@ -3,6 +3,7 @@ import minPriceReducer from '../module/minprice/slice';
 import maxPriceReducer from '../module/maxprice/slice';
 import categoriesReducer from '../module/categories/slice';
 import products from '../module/products/slice';
+import auth from '../module/auth/slice';
 
 
 export const store = configureStore({
@@ -10,7 +11,8 @@ export const store = configureStore({
     minPrice: minPriceReducer,
     maxPrice: maxPriceReducer,
     categories: categoriesReducer,
-    products: products
+    products: products,
+    auth: auth
   },
 });
 

@@ -1,6 +1,6 @@
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { ProductsSlice, loadAsync, Products, Product } from './slice';
+import { ProductsSlice, loadAsync, Product, Products } from './slice';
 import { Instagram, } from 'react-content-loader'
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import styles from './product.module.css';

@@ -8,7 +8,7 @@ type SizedBoxProperty = {
 
 export const Counter: FunctionComponent<SizedBoxProperty> = (prop) => {
   return (
-    <div style={{height:prop.height, width:prop.width}} />
+    <div style={{height:prop.height, width:prop.width, display: "contents"}} />
   );
 }
 

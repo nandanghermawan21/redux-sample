@@ -15,6 +15,7 @@
 
 .App-header {
   min-height: 60px;
+  width: 100%;
   max-width: inherit;
   background-color: white;
   border-bottom: solid;
@@ -85,4 +86,8 @@ form {
 .productArea {
   height: 90vh;
   overflow: auto;
+}
+
+.auth{
+  background-color: transparent;
 }

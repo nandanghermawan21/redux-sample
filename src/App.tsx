@@ -11,6 +11,7 @@ import { store } from './app/store';
 import { Unsubscribe } from '@reduxjs/toolkit';
 import { CategoriesListCheckBox } from './module/categories/view';
 import ProductGrid from './module/products/view';
+import { AuthMenuView } from './module/auth/view';
 
 function App() {
   return (
@@ -35,9 +36,14 @@ function App() {
 function Header() {
   return (
     <Container className='App-header d-flex align-items-end'>
-      <Row>
-        <Col>
+      <Row style={{width:"100%"}} className="align-items-center">
+        <Col md={9}>
           <TabMenu />
+        </Col>
+        <Col md={3} className="align-items-end" style={{textAlign:"end"}}>
+          <div className='auth'>
+            <AuthMenuView/>
+          </div>
         </Col>
       </Row>
     </Container>
