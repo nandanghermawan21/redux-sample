@@ -91,3 +91,34 @@ form {
 .auth{
   background-color: transparent;
 }
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #d7367c;
+  --bs-btn-border-color: #d7367c;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #c86791;
+  --bs-btn-hover-border-color: #ec096c;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #d86f9c;
+  --bs-btn-active-border-color: #d8367c;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #88053e;
+  --bs-btn-disabled-border-color: #d8367c;
+}
+
+.form-check-input:checked {
+  background-color: #d7367c;
+  border-color: #d7367c;
+}
+
+.bg-primary {
+  --bs-bg-opacity: 1;
+  background-color: #d7367c !important;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  border-bottom-color: #d7367c !important;
+}
