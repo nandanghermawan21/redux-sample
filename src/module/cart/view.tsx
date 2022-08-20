@@ -1,12 +1,12 @@
 import { stat } from 'fs';
+import React from 'react';
 import { RefCallback, useState } from 'react';
 import { Badge, Button, Col, Container, Row } from 'react-bootstrap';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import Counter from '../../component/counter/Counter';
-import { fetchOne } from '../products/api';
 import { Product } from '../products/slice';
 import styles from './cart.module.css';
-import { cart, CartSlice, countAllItem } from './slice';
+import { cart, CartSlice, countAllItem, getProductImageAsync } from './slice';
 
 export function CartBedgeView() {
     const state = useAppSelector((state) => state.cart);
@@ -24,8 +24,6 @@ export function CartDetailView() {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.cart);
     switch (state.status) {
-        case 'loading':
-            return (<BedgeLoading />);
         case 'idle':
             return (CartDetail(state, dispatch));
         default:
@@ -102,9 +100,9 @@ const CartSummay = (state: cart) => {
 const ProductItems = (items: Array<Product>, dispatch: any) => {
     return (<div className={styles.ProductItemContainer}>
         {items.map((item, i) => {
-            return (<Container key={i} className={styles.ProductItem}>
+            return (<Container key={i} className={styles.ProductItem} style={{ display: item.deleted == true ? "none" : "" }}>
                 <div className={styles.ProductImageContainer + " d-flex align-items-center"}>
-                    {ProductImage(item!.id!)}
+                    {ProductImage(item!, dispatch)}
                 </div>
                 <div className={styles.ProductDetailContainer}>
                     <div>
@@ -115,10 +113,23 @@ const ProductItems = (items: Array<Product>, dispatch: any) => {
                         &nbsp;&nbsp;
                         <label className={styles.ProductDetailPrice}>USD {(item.total!)?.toLocaleString('en-US')}</label>
                     </div>
-                    <div style={{ width: 100 }}>
-                        {QuantityCounter(item.quantity ?? 0, (v) => {
-                            dispatch(CartSlice.actions.changeQty({ productId: item.id ?? 0, count: v ?? 0 }));
-                        })}
+                    <div >
+                        <Row>
+                            <Col>
+                                <div style={{ width: "150px" }}>
+                                    {QuantityCounter(item.quantity ?? 0, (v) => {
+                                        dispatch(CartSlice.actions.changeQty({ productId: item.id ?? 0, count: v ?? 0 }));
+                                    })}
+                                </div>
+                            </Col>
+                            <Col style={{ textAlign: "end" }}>
+                                <Button className={styles.DeleteButton + " btn-error"} onClick={(val) => {
+                                    dispatch(CartSlice.actions.removeProduct(item!));
+                                }}>
+                                    Delete
+                                </Button>
+                            </Col>
+                        </Row>
                     </div>
                 </div>
             </Container>);
@@ -127,39 +138,41 @@ const ProductItems = (items: Array<Product>, dispatch: any) => {
 };
 
 
-function ProductImage(id: Number) {
-    const [key, setKey] = useState('');
+const ProductImage = (data: Product, dispatch: any) => {
+    // const [key, setKey] = useState('');
 
-    if (key == "") {
-        fetchOne(id, (data) => {
-            setKey(data!.images![0]!.toString());
-        });
+    // if (key == "") {
+    // fetchOne(id, (data) => {
+    //     // setKey(data!.images![0]!.toString());
+    // });
+    // }
+
+    if (data!.images != null && data!.images!.length > 0) {
+        return (
+            <img alt='product' src={data!.images![0]! != "" ? data!.images![0]!.toString() : "/circular_loading.gif"}></img>
+        );
+    } else {
+        dispatch(getProductImageAsync(data.id ?? 0));
+        return <img alt='product' src={"/circular_loading.gif"}></img>
     }
 
-    return (
-        <img alt='product' src={key == "" ? "/circular_loading.gif" : key}></img>
-    );
 }
 
 function QuantityCounter(count: number, onChange: RefCallback<number>) {
-    const [key, setKey] = useState(count);
 
 
     return (
         <Counter
             onChange={(v) => {
-                setKey(v ?? key);
-                onChange(v ?? key);
+                onChange(v ?? count);
             }}
-            value={key}
+            value={count}
             onIncrement={() => {
-                setKey(key + 1);
-                onChange(key + 1);
+                onChange(count + 1);
             }}
             onDecrement={() => {
-                if (key - 1 > 0) {
-                    setKey(key - 1);
-                    onChange(key - 1);
+                if (count - 1 > 0) {
+                    onChange(count - 1);
                 }
             }}
         />

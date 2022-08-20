@@ -27,6 +27,7 @@
 
 .ProductDetailContainer {
     padding: 5px;
+    width: inherit;
 }
 
 .ProductDetailTitle {
@@ -64,6 +65,7 @@
     font-size: 15pt;
     font-weight: bold;
 }
+
 .SummaryDetail {
     text-align: justify;
     padding-bottom: 5;
@@ -75,12 +77,20 @@
     text-align: right;
 }
 
-.SummaryDetailTotalContainer{
-   background-color: transparent;
-   height: 50%;
-   padding-left: 30px;
-   padding-right: 30px;
-   padding-bottom: 20px;
+.SummaryDetailTotalContainer {
+    background-color: transparent;
+    height: 50%;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 20px;
 }
 
-
+.DeleteButton {
+    margin-right: -17px;
+    margin-bottom: -13px;
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.1px;
+    color: red;
+}

@@ -19,11 +19,3 @@ export function fetchAll(category?: String) {
                 resolve({ data: data });
             }));
 }
-
-export function fetchOne(id: Number, onLoaded : RefCallback<Product>) {
-    fetch('https://dummyjson.com/products/'+id)
-        .then(res => res.json())
-        .then((data) => {
-            onLoaded(data);
-        });
-}

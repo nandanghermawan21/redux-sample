@@ -85,13 +85,16 @@ const ProductItem = (item: Product, dispatch: any) => {
                     </Row>
                 </Col>
             </Row>
-            <Row className={styles.itemAction}>
+            <Row className={styles.itemAction+"  d-flex align-items-end"}>
                 <Col md={7}>
                     <Row>
                         <label className={styles.priceLabel}>Price</label>
                     </Row>
                     <Row>
-                        <label>USD {item.price!.toLocaleString('en-US')}</label>
+                        <label>USD {(item.price! - (item.price! * item.discountPercentage! / 100))!.toLocaleString('en-US')}</label>
+                    </Row>
+                    <Row>
+                        <label style={{textDecoration:"line-through"}}>USD {item.price!.toLocaleString('en-US')}</label>
                     </Row>
                 </Col>
                 <Col md={5}>

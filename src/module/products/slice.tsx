@@ -16,6 +16,7 @@ export class Product {
     quantity?: number; //": 3,
     total?: number; //": 1800,
     discountedPrice?: number; //": 1520
+    deleted? : boolean 
 }
 
 export interface Products {
