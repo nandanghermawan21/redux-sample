@@ -14,20 +14,10 @@ import ProductGrid from './module/products/view';
 import { AuthMenuView } from './module/auth/view';
 import { loadAsync as loadProductAsync } from './module/products/slice'
 import { useAppDispatch, useAppSelector } from './app/hooks';
-import { CartBedgeView } from './module/cart/view';
-import { loginAsync } from './module/auth/slice';
-import { loadAsync as loadCategories } from './module/categories/slice';
-import { loadAsync as loadProduct } from './module/products/slice';
+import { CartBedgeView, CartDetailView } from './module/cart/view';
+import { getUserCartAsync } from './module/cart/slice';
 
 function App() {
-  const dispatch = useAppDispatch();
-
-  //initstate
-  dispatch(loginAsync());
-  dispatch(loadCategories(()=>{
-    dispatch(loadProduct());
-  }));
-
   return (
     <Container >
       <Row>
@@ -52,12 +42,15 @@ function LoadTabContent() {
   switch (state.activeTab) {
     case "product":
       return <ProductGrid />
+    case "cart":
+      return <CartDetailView/>
     default:
       return (<div></div>)
   }
 }
 
 function Header() {
+  const dispatch = useAppDispatch();
   return (
     <Container className='App-header d-flex align-items-end'>
       <Row style={{ width: "100%" }} className="align-items-center">
@@ -66,7 +59,9 @@ function Header() {
         </Col>
         <Col md={2} className="align-items-end" style={{ textAlign: "end" }}>
           <div className='auth'>
-            <AuthMenuView />
+            {AuthMenuView((id) => {
+              dispatch(getUserCartAsync(id ?? 0));
+            })}
           </div>
         </Col>
       </Row>

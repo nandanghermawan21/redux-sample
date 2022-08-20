@@ -1,16 +1,18 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { AuthState } from './slice';
+import { AuthState, loginAsync } from './slice';
 import { Code } from 'react-content-loader'
 import SizedBox from '../../component/SizedBox';
+import { RefCallback } from 'react';
 
 
 
-export function AuthMenuView() {
+export function AuthMenuView(onLoggedIn? : RefCallback<Number>) {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.auth);
 
     switch (state.status) {
         case 'first':
+            dispatch(loginAsync(onLoggedIn));
             return (LoadingView());
         case "idle":
             return (IdleView(state, dispatch));

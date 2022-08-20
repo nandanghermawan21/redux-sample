@@ -1,4 +1,4 @@
-export function getUserCart(userId : number) {
+export function GetUserCart(userId : Number) {
     return new Promise<{ data: any }>((resolve) =>
         fetch('https://dummyjson.com/carts/user/'+userId)
             .then((response) => response.json())

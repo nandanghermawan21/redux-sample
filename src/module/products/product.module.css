@@ -46,3 +46,9 @@
 .priceLabel{
     color: #c1bbbb;
 }
+
+.discount{
+    height: 50px;
+    width: 100px;
+    background-color: red;
+}

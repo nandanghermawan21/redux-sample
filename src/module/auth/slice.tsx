@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RefCallback } from 'react';
 import { login } from './api';
 
 export class Auth {
@@ -24,7 +25,7 @@ const initialState: AuthState = {
 
 export const loginAsync = createAsyncThunk(
     'auth/login',
-    async (onLoggedIn? : CallableFunction) => {
+    async (onLoggedIn? : RefCallback<Number>) => {
         console.log("call async login");
         const response = await login(onLoggedIn);
         // The value we return becomes the `fulfilled` action payload

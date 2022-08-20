@@ -1,6 +1,6 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import CheckBoxBasic, { RadioButtonBasic } from '../../component/Selector';
-import { Categories, categoriesSlice, isSelected } from './slice';
+import { Categories, categoriesSlice, isSelected, loadAsync } from './slice';
 import { BulletList } from 'react-content-loader'
 
 
@@ -12,6 +12,7 @@ export function CategoriesListCheckBox(type: 'CheckBox' | "Radio", onChange: Cal
 
     switch (state.status) {
         case 'first':
+            dispatch(loadAsync());
             return (LoadingView());
         case "idle":
             if (type === 'CheckBox') {

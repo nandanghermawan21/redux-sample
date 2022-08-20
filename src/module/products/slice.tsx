@@ -13,9 +13,9 @@ export class Product {
     category?: String; //: "smartphones",
     thumbnail?: String; //: "...",
     images?: Array<String>; //: ["...", "...", "..."]
-    quantity?: Number; //": 3,
-    total?: Number; //": 1800,
-    discountedPrice?: Number; //": 1520
+    quantity?: number; //": 3,
+    total?: number; //": 1800,
+    discountedPrice?: number; //": 1520
 }
 
 export interface Products {
@@ -53,6 +53,7 @@ export const ProductsSlice = createSlice({
             .addCase(loadAsync.fulfilled, (state, action) => {
                 state.status = 'idle';
                 // Add any fetched posts to the array
+                action.payload["products"]["discountedPrice"] = 0;
                 state.datas = (action.payload["products"]);
             })
             .addCase(loadAsync.rejected, (state, action) => {

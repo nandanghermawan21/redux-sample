@@ -1,19 +1,20 @@
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { Product, Products } from './slice';
+import { loadAsync, Product, Products } from './slice';
 import { Instagram, } from 'react-content-loader'
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, FloatingLabel, Row } from 'react-bootstrap';
 import styles from './product.module.css';
+import { RefCallback } from 'react';
+import { CartSlice } from '../cart/slice';
 
 
 export function ProductGrid() {
     const dispatch = useAppDispatch();
     const state = useAppSelector((state) => state.products);
 
-    // return (LoadingView());
-
     switch (state.status) {
         case 'first':
+            dispatch(loadAsync());
             return (LoadingView());
         case "idle":
             return (IdleView(state, dispatch));
@@ -29,7 +30,7 @@ const IdleView = (state: Products, dispatch: any) => {
         <div style={{ display: "contents" }}>
             {state.datas.map((product, i) => {
                 return (
-                    <div key={i}>{ProductItem(product)}</div>
+                    <div key={i}>{ProductItem(product, dispatch)}</div>
                 );
             })
             }
@@ -47,11 +48,11 @@ const LoadingView = () => {
     );
 }
 
-const ProductItem = (item: Product) => {
+const ProductItem = (item: Product, dispatch: any) => {
     return (
         <Container className={styles.container}>
             <Row className={styles.itemImage}>
-                <img src={item.images !== undefined ? item.images[0].toString() : ""} alt='logo'></img>
+                <img src={item.images !== undefined ? item.images[0].toString() : ""} alt='image'></img>
             </Row>
             <Row className={styles.itemName}>
                 <label>{item.title}</label>
@@ -90,11 +91,13 @@ const ProductItem = (item: Product) => {
                         <label className={styles.priceLabel}>Price</label>
                     </Row>
                     <Row>
-                        <label>USD {item.price}</label>
+                        <label>USD {item.price!.toLocaleString('en-US')}</label>
                     </Row>
                 </Col>
                 <Col md={5}>
-                    <Button>
+                    <Button onClick={(val) => {
+                        dispatch(CartSlice.actions.addProduct(item))
+                    }}>
                         Add Cart
                     </Button>
                 </Col>
