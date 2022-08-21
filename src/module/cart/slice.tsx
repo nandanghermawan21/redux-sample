@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { count } from 'console';
 import { Product } from '../products/slice';
 import { GetUserCart, GetProductImage } from './api'
 
@@ -48,7 +47,7 @@ export const CartSlice = createSlice({
     reducers: {
         changeQty: (state, action: PayloadAction<{ productId: number, count: number }>) => {
 
-            state.data![0].products?.map((item, i) => {
+            state.data![0].products?.map((item) => {
                 if (item.id === action.payload.productId) {
                     item.discountedPrice = (item.price! - (item.price! * item.discountPercentage! / 100)) * action.payload.count;
                     item.total = (item.price!) * action.payload.count;
@@ -65,7 +64,7 @@ export const CartSlice = createSlice({
 
             var found = false;
 
-            state.data![0].products?.map((item, i) => {
+            state.data![0].products?.map((item) => {
                 if (item.id === action.payload.id) {
                     found = true;
                     item.deleted = false;
@@ -79,7 +78,7 @@ export const CartSlice = createSlice({
                 }
             });
 
-            if (found == false) {
+            if (found === false) {
                 var jsonProduct = JSON.stringify(action.payload);
                 var newProduct = JSON.parse(jsonProduct);
                 state.data![0].products?.push(newProduct);
@@ -126,7 +125,7 @@ export const CartSlice = createSlice({
                 state.status = 'idle'
             }).addCase(getProductImageAsync.pending, (state, action) => {
                 state.data![0].products?.map((item, i) => {
-                    if (item.id == action.meta.arg) {
+                    if (item.id === action.meta.arg) {
                         item.images = Array<String>("");
                     }
                 })
@@ -135,7 +134,7 @@ export const CartSlice = createSlice({
                 state.status = 'idle';
                 // Add any fetched posts to the array
                 state.data![0].products?.map((item, i) => {
-                    if (item.id == action.meta.arg) {
+                    if (item.id === action.meta.arg) {
                         item.images = Array<String>(action.payload);
                     }
                 })
@@ -150,7 +149,7 @@ export function countItem(state: cart): number {
     state.data![0].totalProducts = 0;
 
     state.data![0].products?.map((e, i) => {
-        if (e.deleted != true) {
+        if (e.deleted !== true) {
             state.data![0].totalProducts = state.data![0].totalProducts! + 1;
         }
     })
@@ -162,7 +161,7 @@ export function countAllItem(state: cart): number {
     state.data![0].totalQuantity = 0;
 
     state.data![0].products?.map((e, i) => {
-        if (e.deleted != true) {
+        if (e.deleted !== true) {
             state.data![0].totalQuantity = state.data![0].totalQuantity! + e!.quantity! ?? 0;
         }
     })
@@ -174,7 +173,7 @@ export function countTotalPrice(state: cart): number {
     state.data![0].total = 0;
 
     state.data![0].products?.map((e, i) => {
-        if (e.deleted != true) {
+        if (e.deleted !== true) {
             state.data![0].total = state.data![0].total! + e!.total! ?? 0;
         }
     })
@@ -186,7 +185,7 @@ export function countTotalDiscountedPrice(state: cart): number {
     state.data![0].discountedTotal = 0;
 
     state.data![0].products?.map((e, i) => {
-        if (e.deleted != true) {
+        if (e.deleted !== true) {
             state.data![0].discountedTotal = state.data![0].discountedTotal! + e!.discountedPrice! ?? 0;
         }
     })
