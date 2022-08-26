@@ -98,5 +98,4 @@ const LoadingView = () => {
     );
 }
 
-
 export default CategoriesListCheckBox;
